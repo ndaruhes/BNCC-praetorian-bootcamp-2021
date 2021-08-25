@@ -9,7 +9,11 @@
         @csrf
         <div class="form-group">
             <label for="">Cover</label>
-            <img src="{{ asset('storage/images/blog/'.$blog->cover) }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
+            @if(Storage::exists(asset('storage/images/blog/'.$blog->cover)))
+                <img src="{{ asset('storage/images/blog/'.$blog->cover) }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
+            @else
+                <img src="{{ $blog->cover }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
+            @endif
             <input type="file" name="cover" class="form-control">
         </div>
         <div class="form-group">

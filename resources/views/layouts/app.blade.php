@@ -18,6 +18,20 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    {{-- Internal Styles --}}
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background: white;
+        }
+        .cursor-pointer{
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -55,6 +69,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('home') }}">Dashboard</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
@@ -75,6 +90,36 @@
         {{-- CONTENT --}}
         <div>
             @yield('content')
+        </div>
+
+        {{-- FOOTER --}}
+        <div class="footer">
+            <div class="subscribe bg-light py-5">
+                <div class="col-md-5 m-auto text-center">
+                    <h1 class="mb-3">Subscribe For Blogs Newsletter</h1>
+                    <form action="{{ route('subscribeBlog') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Your email...">
+                                <div class="input-group-append">
+                                    <button type="submit" class="input-group-text bg-primary text-white">Subscribe</button>
+                                </div>
+                            </div>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright bg-dark text-white py-3">
+                <div class="container">
+                    &copy; 2021 RuBlogs | All Right Reserved
+                </div>
+            </div>
         </div>
 
         {{-- DELETE MODAL --}}

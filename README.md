@@ -9,5 +9,5 @@
 - Newsletter/Blog Subscribe
 - Comment & Reply Comment
 
-Regards, 
+Regards, <br>
 Muhamad Ndaru B24

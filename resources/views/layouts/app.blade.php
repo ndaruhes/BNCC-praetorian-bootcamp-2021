@@ -19,6 +19,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    {{-- Summernote --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
     {{-- Internal Styles --}}
     <style>
         *{
@@ -90,6 +93,20 @@
         {{-- CONTENT --}}
         <div>
             @yield('content')
+            @if(session('status'))
+                <div class="toast" data-delay="2000" style="position: absolute; bottom: 20px; right: 20px;">
+                    <div class="toast-header bg-success">
+                        😁
+                        <strong class="ml-2 mr-auto text-white">Notification</strong>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body text-white bg-success">
+                        {{session('status')}}
+                    </div>
+                </div>
+            @endif
         </div>
 
         {{-- FOOTER --}}
@@ -148,16 +165,26 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
         $(document).ready(function(){
             $('#confirmDeleteModal').on('show.bs.modal', function(e) {
                 $(this).find('#confirm_delete').attr('action', $(e.relatedTarget).data('uri'));
             });
+            $('.toast').toast('show')
         });
-        $(document).ready(function(){
-            $('#konfirmasiTerimaPesananModal').on('show.bs.modal', function(e) {
-                $(this).find('#confirm_accept').attr('action', $(e.relatedTarget).data('uri'));
-            });
+        $('#summernote').summernote({
+            tabsize: 2,
+            height: 120,
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+            ]
         });
     </script>
     @yield('addedScript')

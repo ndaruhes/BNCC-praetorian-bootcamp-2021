@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SubscribeMail;
 use App\Models\Blog;
-use App\Models\Comment;
 use App\Models\Reply;
+use App\Models\Comment;
 use App\Models\Subscriber;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
@@ -21,6 +23,10 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Auth::user() && Auth::user()->role == 'Member' ? Blog::where('user_id', '=', Auth::user()->id)->get() : Blog::get();
+        $subscribers = Subscriber::get();
+        // foreach ($subscribers as $subscriber) {
+        //     echo $subscriber->email;
+        // }
         return view('blog.index', compact('blogs'));
     }
 
@@ -28,8 +34,6 @@ class BlogController extends Controller
     {
         $blog = Blog::findOrFail($id);
         $comments = Comment::where('blog_id', '=', $blog->id)->get();
-        // $replies = Reply::where('comment_id', '=', $comments->id)->get();
-        // $replies = Reply::where('comment_id', '=', 1)->get();
         $replies = Reply::get();
         return view('blog.show', compact('blog', 'comments', 'replies'));
     }
@@ -134,10 +138,16 @@ class BlogController extends Controller
             'email' => 'required|email',
         ]);
 
-        Subscriber::create([
-            'email' => $request->email
-        ]);
+        $subscriber = Subscriber::find($request->email);
+        if ($subscriber == null) {
+            Mail::to($request->email)->send(new SubscribeMail($request->email));
+            Subscriber::create([
+                'email' => $request->email
+            ]);
 
-        return redirect()->back()->with('status', 'Berhasil subscribe RuBlogs');
+            return redirect()->back()->with('status', 'Berhasil subscribe RuBlogs');
+        } else {
+            return redirect()->back()->with('status', 'Anda sudah subscribe di RuBlogs');
+        }
     }
 }

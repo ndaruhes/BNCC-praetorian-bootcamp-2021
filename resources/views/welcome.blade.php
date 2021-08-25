@@ -24,14 +24,14 @@
             <div class="col-md-4 mb-4">
                 <div class="col-md-12 p-0 rounded bg-light shadow">
                     <a href="{{ route('showBlog', $blog->id) }}" class="text-dark text-decoration-none">
-                        @if(Storage::exists(asset('storage/images/blog/'.$blog->cover)))
+                        @if(Storage::exists('public/images/blog/'.$blog->cover))
                             <img src="{{ asset('storage/images/blog/'.$blog->cover) }}" alt="{{ $blog->judul }}" class="w-100 rounded-top">
                         @else
                             <img src="{{ $blog->cover }}" alt="{{ $blog->judul }}" class="w-100 rounded-top">
                         @endif
                         <div class="p-3">
                             <h3 class="m-0">{{ $blog->judul }}</h3>
-                            <p class="mt-2">{{ Str::words($blog->content, 20, '...') }}</p>
+                            <p class="mt-2">{!! Str::words($blog->content, 20, '...') !!}</p>
                         </div>
                     </a>
                 </div>

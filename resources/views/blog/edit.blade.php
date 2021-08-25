@@ -9,7 +9,7 @@
         @csrf
         <div class="form-group">
             <label for="">Cover</label>
-            @if(Storage::exists(asset('storage/images/blog/'.$blog->cover)))
+            @if(Storage::exists('public/images/blog/'.$blog->cover))
                 <img src="{{ asset('storage/images/blog/'.$blog->cover) }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
             @else
                 <img src="{{ $blog->cover }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="">Content</label>
-            <textarea name="content" class="form-control @error('content') is-invalid @enderror" cols="30" rows="10" placeholder="Content...">{{ $blog->content }}</textarea>
+            <textarea name="content" id="summernote" class="form-control @error('content') is-invalid @enderror" cols="30" rows="10" placeholder="Content...">{!! $blog->content !!}</textarea>
             @error('content')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

@@ -5,14 +5,14 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8">
-            @if(Storage::exists(asset('storage/images/blog/'.$blog->cover)))
+            @if(Storage::exists('public/images/blog/'.$blog->cover))
                 <img src="{{ asset('storage/images/blog/'.$blog->cover) }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
             @else
                 <img src="{{ $blog->cover }}" alt="{{ $blog->judul }}" class="w-100 mb-2">
             @endif
             <span class="badge badge-primary">{{ $blog->user->name }}</span>
             <h1 class="m-0">{{ $blog->judul }}</h1>
-            <p class="mt-4">{{ $blog->content }}</p>
+            <p class="mt-4">{!! $blog->content !!}</p>
         </div>
         <div class="col-md-4">
             <h3 class="m-0">Comments</h3>
